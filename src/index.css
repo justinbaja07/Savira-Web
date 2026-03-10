@@ -1,0 +1,21 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@keyframes ticker {
+  0% { transform: translateY(0); }
+  100% { transform: translateY(-50%); }
+}
+
+@keyframes ticker-slow {
+  0% { transform: translateY(0); }
+  100% { transform: translateY(-50%); }
+}
+
+.animate-ticker {
+  animation: ticker 20s linear infinite;
+}
+
+.animate-ticker-slow {
+  animation: ticker-slow 35s linear infinite;
+}
