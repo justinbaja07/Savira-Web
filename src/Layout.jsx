@@ -277,6 +277,36 @@ export default function Layout({ children, currentPageName }) {
               savira.help@gmail.com
             </a>
           </p>
+          <div className="flex items-center gap-3">
+  <a href="https://www.instagram.com/savira_ai" target="_blank" rel="noopener noreferrer" aria-label="Instagram"
+    className="flex items-center justify-center w-9 h-9 rounded-full transition-all duration-200"
+    style={{ background: '#1A1A1A', border: '1px solid #333333' }}
+    onMouseEnter={e => e.currentTarget.style.borderColor='#FF6B87'}
+    onMouseLeave={e => e.currentTarget.style.borderColor='#333333'}>
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#A1A1A1" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+      <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.5" fill="#A1A1A1"/>
+    </svg>
+  </a>
+  <a href="https://www.youtube.com/@SaviraAI" target="_blank" rel="noopener noreferrer" aria-label="YouTube"
+    className="flex items-center justify-center w-9 h-9 rounded-full transition-all duration-200"
+    style={{ background: '#1A1A1A', border: '1px solid #333333' }}
+    onMouseEnter={e => e.currentTarget.style.borderColor='#FF6B87'}
+    onMouseLeave={e => e.currentTarget.style.borderColor='#333333'}>
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#A1A1A1" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M22.54 6.42a2.78 2.78 0 0 0-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46A2.78 2.78 0 0 0 1.46 6.42 29 29 0 0 0 1 12a29 29 0 0 0 .46 5.58 2.78 2.78 0 0 0 1.95 1.96C5.12 20 12 20 12 20s6.88 0 8.59-.46a2.78 2.78 0 0 0 1.95-1.96A29 29 0 0 0 23 12a29 29 0 0 0-.46-5.58z"/>
+      <polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02" fill="#A1A1A1" stroke="none"/>
+    </svg>
+  </a>
+  <a href="https://www.tiktok.com/@savira.ai" target="_blank" rel="noopener noreferrer" aria-label="TikTok"
+    className="flex items-center justify-center w-9 h-9 rounded-full transition-all duration-200"
+    style={{ background: '#1A1A1A', border: '1px solid #333333' }}
+    onMouseEnter={e => e.currentTarget.style.borderColor='#FF6B87'}
+    onMouseLeave={e => e.currentTarget.style.borderColor='#333333'}>
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="#A1A1A1">
+      <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V8.69a8.18 8.18 0 0 0 4.78 1.52V6.75a4.85 4.85 0 0 1-1.01-.06z"/>
+    </svg>
+  </a>
+</div>
           <div className="flex items-center gap-6">
             {navLinks.map(({ label, page }) => (
               <Link

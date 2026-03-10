@@ -1,4 +1,38 @@
-﻿=== D:\Savira-Web\src\components\DataTicker.jsx ===
+﻿=== D:\Savira-Web\src\App.jsx ===
+import React from 'react';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { QueryClientProvider } from '@tanstack/react-query';
+import { queryClientInstance } from './lib/query-client';
+import { pagesConfig } from './pages.config';
+
+const { Pages, mainPage, Layout } = pagesConfig;
+
+function AppRoutes() {
+  return (
+    <Routes>
+      {Object.entries(Pages).map(([pageName, PageComponent]) => {
+        const path = pageName === mainPage ? '/' : '/' + pageName.toLowerCase();
+        const element = Layout
+          ? <Layout currentPageName={pageName}><PageComponent /></Layout>
+          : <PageComponent />;
+        return <Route key={pageName} path={path} element={element} />;
+      })}
+      <Route path="*" element={<Navigate to="/" replace />} />
+    </Routes>
+  );
+}
+
+export default function App() {
+  return (
+    <QueryClientProvider client={queryClientInstance}>
+      <BrowserRouter>
+        <AppRoutes />
+      </BrowserRouter>
+    </QueryClientProvider>
+  );
+}
+
+=== D:\Savira-Web\src\components\DataTicker.jsx ===
 import React from 'react';
 
 const tickerData = [
@@ -72,48 +106,49 @@ export default function DataTicker({ reverse = false, speed = 'normal' }) {
 
 === D:\Savira-Web\src\components\FeatureGrid.jsx ===
 import React from 'react';
+import { ScanLine, TrendingDown, ShoppingCart, BarChart2, Search, Bell } from 'lucide-react';
 
 const features = [
   {
-    icon: 'â¬›',
+    Icon: ScanLine,
     label: 'SCAN',
     title: 'Point. Scan. Know.',
     desc: 'Scan any barcode instantly. Savira cross-references millions of product records to surface the truth behind the packaging.',
     accent: '#FF6B87',
   },
   {
-    icon: 'ðŸ“‰',
+    Icon: TrendingDown,
     label: 'SHRINKFLATION',
     title: 'Has it shrunk?',
     desc: 'We track product weights over time. If the pack got smaller but the price stayed the same â€” or rose â€” we show you exactly by how much.',
     accent: '#FF6B87',
   },
   {
-    icon: 'ðŸ’°',
+    Icon: ShoppingCart,
     label: 'PRICE COMPARE',
     title: 'Cheapest near you.',
     desc: 'Compare the same product across major retailers in real time. Find the best value without opening five different apps.',
     accent: '#D97706',
   },
   {
-    icon: 'ðŸ“Š',
+    Icon: BarChart2,
     label: 'INFLATION INDEX',
     title: 'Track it over time.',
     desc: 'See how a product\'s real cost â€” price per gram, per litre, per unit â€” has changed over months and years. Inflation made visible.',
     accent: '#D97706',
   },
   {
-    icon: 'ðŸ”',
+    Icon: Search,
     label: 'SEARCH',
     title: 'No barcode? No problem.',
     desc: 'Search by product name, brand, or category. Every search returns the same forensic breakdown: weight history, price history, best value.',
     accent: '#FF6B87',
   },
   {
-    icon: 'ðŸ””',
+    Icon: Bell,
     label: 'ALERTS',
     title: 'Stay ahead of changes.',
-    desc: 'Save products you buy regularly. Savira will alert you if a pack shrinks or a price spikes â€” before you hit the checkout.',
+    desc: 'Save products you buy regularly. Savira will alert you if a pack shrinks or a price spikes.',
     accent: '#D97706',
   },
 ];
@@ -128,7 +163,7 @@ export default function FeatureGrid() {
           style={{ background: '#F7F5F2' }}
         >
           <div className="mb-4 flex items-center gap-3">
-            <span className="text-2xl">{f.icon}</span>
+            <f.Icon className="w-5 h-5" style={{ color: f.accent }} />
             <span
               className="font-mono text-xs font-bold"
               style={{ color: f.accent, letterSpacing: '0.12em' }}
@@ -195,32 +230,32 @@ const products = [
     emoji: 'ðŸ«',
     oldWeight: '200g',
     newWeight: '170g',
-    oldPrice: 'Â£1.29',
-    newPrice: 'Â£1.49',
+    oldPrice: '$1.73',
+    newPrice: '$2.00',
     weightLoss: '-15%',
     priceLoss: '+15.5%',
     effectivePriceRise: '+35%',
     year: '2019 â†’ 2024',
   },
   {
-    name: 'Crisps Pack',
+    name: 'Bag of Chips',
     emoji: 'ðŸ¥”',
     oldWeight: '40g',
     newWeight: '32g',
-    oldPrice: 'Â£0.65',
-    newPrice: 'Â£0.79',
+    oldPrice: '$0.99',
+    newPrice: '$1.20',
     weightLoss: '-20%',
     priceLoss: '+21.5%',
     effectivePriceRise: '+51%',
     year: '2020 â†’ 2024',
   },
   {
-    name: 'Coffee Jar',
+    name: 'Coffee',
     emoji: 'â˜•',
     oldWeight: '200g',
     newWeight: '170g',
-    oldPrice: 'Â£4.50',
-    newPrice: 'Â£5.20',
+    oldPrice: '$4.50',
+    newPrice: '$5.20',
     weightLoss: '-15%',
     priceLoss: '+15.6%',
     effectivePriceRise: '+35%',
@@ -384,9 +419,9 @@ export default function ShrinkToggle() {
 import React, { useEffect, useRef, useState } from 'react';
 
 const stats = [
-  { value: '2M+', label: 'Products tracked', color: '#FF6B87' },
-  { value: '47%', label: 'Avg. hidden price rise uncovered', color: '#D97706' },
-  { value: 'Â£340', label: 'Avg. annual saving per household', color: '#FF6B87' },
+  { value: '700M+', label: 'Barcode database', color: '#FF6B87' },
+  { value: 'FREE', label: 'Cost of Savira', color: '#D97706' },
+  { value: '$500', label: 'est. annual saving per household', color: '#FF6B87' },
   { value: '0', label: 'Ads. Ever.', color: '#0A0A0A' },
 ];
 
@@ -485,6 +520,53 @@ AccordionContent.displayName = AccordionPrimitive.Content.displayName
 export { Accordion, AccordionItem, AccordionTrigger, AccordionContent }
 
 === D:\Savira-Web\src\components\ui\alert.jsx ===
+import * as React from "react"
+import { cva } from "class-variance-authority";
+
+import { cn } from "@/lib/utils"
+
+const alertVariants = cva(
+  "relative w-full rounded-lg border px-4 py-3 text-sm [&>svg+div]:translate-y-[-3px] [&>svg]:absolute [&>svg]:left-4 [&>svg]:top-4 [&>svg]:text-foreground [&>svg~*]:pl-7",
+  {
+    variants: {
+      variant: {
+        default: "bg-background text-foreground",
+        destructive:
+          "border-destructive/50 text-destructive dark:border-destructive [&>svg]:text-destructive",
+      },
+    },
+    defaultVariants: {
+      variant: "default",
+    },
+  }
+)
+
+const Alert = React.forwardRef(({ className, variant, ...props }, ref) => (
+  <div
+    ref={ref}
+    role="alert"
+    className={cn(alertVariants({ variant }), className)}
+    {...props} />
+))
+Alert.displayName = "Alert"
+
+const AlertTitle = React.forwardRef(({ className, ...props }, ref) => (
+  <h5
+    ref={ref}
+    className={cn("mb-1 font-medium leading-none tracking-tight", className)}
+    {...props} />
+))
+AlertTitle.displayName = "AlertTitle"
+
+const AlertDescription = React.forwardRef(({ className, ...props }, ref) => (
+  <div
+    ref={ref}
+    className={cn("text-sm [&_p]:leading-relaxed", className)}
+    {...props} />
+))
+AlertDescription.displayName = "AlertDescription"
+
+export { Alert, AlertTitle, AlertDescription }
 
 === D:\Savira-Web\src\components\ui\alert-dialogue.jsx ===
 import * as React from "react"
@@ -2288,6 +2370,59 @@ Input.displayName = "Input"
 export { Input }
 
 === D:\Savira-Web\src\components\ui\input-opt.jsx ===
+import * as React from "react"
+import { OTPInput, OTPInputContext } from "input-otp"
+import { Minus } from "lucide-react"
+
+import { cn } from "@/lib/utils"
+
+const InputOTP = React.forwardRef(({ className, containerClassName, ...props }, ref) => (
+  <OTPInput
+    ref={ref}
+    containerClassName={cn("flex items-center gap-2 has-[:disabled]:opacity-50", containerClassName)}
+    className={cn("disabled:cursor-not-allowed", className)}
+    {...props} />
+))
+InputOTP.displayName = "InputOTP"
+
+const InputOTPGroup = React.forwardRef(({ className, ...props }, ref) => (
+  <div ref={ref} className={cn("flex items-center", className)} {...props} />
+))
+InputOTPGroup.displayName = "InputOTPGroup"
+
+const InputOTPSlot = React.forwardRef(({ index, className, ...props }, ref) => {
+  const inputOTPContext = React.useContext(OTPInputContext)
+  const { char, hasFakeCaret, isActive } = inputOTPContext.slots[index]
+
+  return (
+    (<div
+      ref={ref}
+      className={cn(
+        "relative flex h-9 w-9 items-center justify-center border-y border-r border-input text-sm shadow-sm transition-all first:rounded-l-md first:border-l last:rounded-r-md",
+        isActive && "z-10 ring-1 ring-ring",
+        className
+      )}
+      {...props}>
+      {char}
+      {hasFakeCaret && (
+        <div
+          className="pointer-events-none absolute inset-0 flex items-center justify-center">
+          <div className="h-4 w-px animate-caret-blink bg-foreground duration-1000" />
+        </div>
+      )}
+    </div>)
+  );
+})
+InputOTPSlot.displayName = "InputOTPSlot"
+
+const InputOTPSeparator = React.forwardRef(({ ...props }, ref) => (
+  <div ref={ref} role="separator" {...props}>
+    <Minus />
+  </div>
+))
+InputOTPSeparator.displayName = "InputOTPSeparator"
+
+export { InputOTP, InputOTPGroup, InputOTPSlot, InputOTPSeparator }
 
 === D:\Savira-Web\src\components\ui\label.jsx ===
 import * as React from "react"
@@ -4519,7 +4654,6 @@ export default function Layout({ children, currentPageName }) {
   const navLinks = [
     { label: 'Home', page: 'Home' },
     { label: 'Mission', page: 'Mission' },
-    { label: 'Transparency', page: 'Transparency' },
     { label: 'Download', page: 'Download' },
   ];
 
@@ -4712,7 +4846,7 @@ export default function Layout({ children, currentPageName }) {
               color: '#FFFFFF',
             }}
           >
-            NO BULLSHIT.
+            NO BS.
           </p>
         </div>
 
@@ -4722,7 +4856,7 @@ export default function Layout({ children, currentPageName }) {
             <p className="font-mono text-xs mb-4" style={{ color: '#FF6B87', letterSpacing: '0.15em' }}>
               WE TRACK
             </p>
-            {['Grams & millilitres', 'Price per unit', 'Pack size changes', 'Retailer pricing', 'Inflation over time', 'Product reformulations'].map(item => (
+            {['Price per unit', 'Pack size changes', 'Retailer pricing', 'Inflation over time'].map(item => (
               <p key={item} className="font-mono text-sm mb-2" style={{ color: '#A1A1A1' }}>
                 <span style={{ color: '#FF6B87', marginRight: '8px' }}>+</span>{item}
               </p>
@@ -4732,7 +4866,7 @@ export default function Layout({ children, currentPageName }) {
             <p className="font-mono text-xs mb-4" style={{ color: '#D97706', letterSpacing: '0.15em' }}>
               WE FLAG
             </p>
-            {['Shrinkflation incidents', 'Price hikes vs. size cuts', 'Hidden cost-per-gram rises', 'Same product, less inside', 'Packaging deception'].map(item => (
+            {['Shrinkflation incidents', 'Price hikes vs. size cuts', 'Hidden cost-per-gram rises'].map(item => (
               <p key={item} className="font-mono text-sm mb-2" style={{ color: '#A1A1A1' }}>
                 <span style={{ color: '#D97706', marginRight: '8px' }}>!</span>{item}
               </p>
@@ -4742,7 +4876,7 @@ export default function Layout({ children, currentPageName }) {
             <p className="font-mono text-xs mb-4" style={{ color: '#555555', letterSpacing: '0.15em' }}>
               WE NEVER TRACK
             </p>
-            {['Your personal data', 'Your shopping habits', 'Your location', 'Your identity', 'Your purchases'].map(item => (
+            {['Your personal data', 'Your shopping habits', 'Your location', 'Your identity'].map(item => (
               <p key={item} className="font-mono text-sm mb-2" style={{ color: '#555555' }}>
                 <span style={{ marginRight: '8px' }}>Ã—</span>{item}
               </p>
@@ -4765,7 +4899,16 @@ export default function Layout({ children, currentPageName }) {
             </span>
           </div>
           <p className="font-mono text-xs" style={{ color: '#555555' }}>
-            Â© {new Date().getFullYear()} Savira Â· Free during beta Â· Always free
+            Â© {new Date().getFullYear()} Savira Â· Free during beta Â· Always free Â· For help contact{' '}
+            <a
+              href="https://mail.google.com/mail/?view=cm&to=savira.help@gmail.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:text-white transition-colors"
+              style={{ color: '#A1A1A1', textDecoration: 'none' }}
+            >
+              savira.help@gmail.com
+            </a>
           </p>
           <div className="flex items-center gap-6">
             {navLinks.map(({ label, page }) => (
@@ -4861,7 +5004,6 @@ ReactDOM.createRoot(document.getElementById('root')).render(
 import Download from './pages/Download';
 import Home from './pages/Home';
 import Mission from './pages/Mission';
-import Transparency from './pages/Transparency';
 import __Layout from './Layout.jsx';
 
 
@@ -4869,7 +5011,6 @@ export const PAGES = {
     "Download": Download,
     "Home": Home,
     "Mission": Mission,
-    "Transparency": Transparency,
 }
 
 export const pagesConfig = {
@@ -4902,22 +5043,15 @@ function FadeSection({ children, delay = 0 }) {
 
 function PlayStoreLogo() {
   return (
-    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path d="M3.18 23.76C3.06 23.64 3 23.46 3 23.22V0.78C3 0.54 3.06 0.36 3.18 0.24L3.24 0.18L12.96 9.9V10.02L3.24 19.74L3.18 23.76Z" fill="#00C4FF"/>
-      <path d="M16.08 13.02L12.96 9.9V10.02L16.08 13.14L16.08 13.02Z" fill="url(#a)"/>
-      <path d="M3.18 23.76L3.24 19.74L12.96 10.02L16.08 13.14L4.44 24L3.18 23.76Z" fill="#FF3D00"/>
-      <path d="M3.18 0.24L4.44 0L16.08 10.86L12.96 9.9L3.24 0.18L3.18 0.24Z" fill="#00E676"/>
-      <path d="M16.08 10.86L20.34 13.26C21.54 13.98 21.54 15.06 20.34 15.78L16.08 13.14L12.96 10.02L16.08 10.86Z" fill="#FFD600"/>
-      <defs>
-        <linearGradient id="a" x1="12.96" y1="13.08" x2="16.08" y2="13.08" gradientUnits="userSpaceOnUse">
-          <stop stopColor="#00C4FF"/>
-          <stop offset="1" stopColor="#00C4FF" stopOpacity="0"/>
-        </linearGradient>
-      </defs>
-    </svg>
+    <img
+      src="https://upload.wikimedia.org/wikipedia/commons/d/d0/Google_Play_Arrow_logo.svg"
+      alt="Google Play"
+      width="28"
+      height="28"
+      style={{ objectFit: "contain" }}
+    />
   );
 }
-
 const perks = [
   { Icon: ScanLine, label: 'Barcode scanner', desc: 'Scan any product in seconds.' },
   { Icon: Search, label: 'Product search', desc: 'Find anything by name or brand.' },
@@ -5101,7 +5235,7 @@ export default function Download() {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-10">
               {[
                 { label: 'Ads', status: 'Never', color: '#FF6B87', icon: 'âœ•' },
-                { label: 'Premium paywalls', status: 'Generous free tier â€” always', color: '#FF6B87', icon: 'âœ“' },
+                { label: 'Premium paywalls', status: 'Generous free tier', color: '#FF6B87', icon: 'âœ“' },
                 { label: 'Data selling', status: 'Never', color: '#FF6B87', icon: 'âœ•' },
               ].map((item, i) => (
                 <div
@@ -5149,23 +5283,20 @@ export default function Download() {
           {[
             {
               q: 'Do I need to create an account?',
-              a: 'No. You can scan and search products without any account. An optional account lets you save products and set alerts.',
+              a: 'Yes, accounts are completely free to make and they help us seperate bots from humans.',
             },
             {
               q: 'Is it really free?',
-              a: 'Yes. During beta, everything in Savira is completely free. After beta, there will be a generous free tier and no features that feel essential will be paywalled.',
+              a: 'Yes. During beta, everything in Savira is completely free. After beta, there will be an exteremely generous free tier and no features that feel essential will be paywalled.',
             },
             {
               q: 'Will you ever add ads?',
               a: 'No. Ads create a conflict of interest with brands we\'re reporting on. We won\'t accept advertising from any company whose products appear in the app. Ever.',
             },
-            {
-              q: 'How does Savira make money then?',
-              a: 'We\'re figuring that out â€” but it won\'t involve ads or selling your data. Potential models include optional premium features or API access for researchers.',
-            },
+        
             {
               q: 'How do you get product data?',
-              a: 'Through barcode databases, retailer data partnerships, and community scanning. Every data point is verified before being published.',
+              a: 'Through barcode databases, specialized AI models, and community scanning.',
             },
           ].map((faq, i) => (
             <FadeSection key={i} delay={i * 60}>
@@ -5466,19 +5597,19 @@ export default function Home() {
           <div className="grid md:grid-cols-3" style={{ border: '1px solid #E2E0DC', borderRadius: '8px', overflow: 'hidden' }}>
             {[
               {
-                step: '01',
+                step: '1',
                 Icon: ScanLine,
                 title: 'Scan or Search',
                 desc: 'Open Savira, point at a barcode or type a product name. Takes less than two seconds.',
               },
               {
-                step: '02',
+                step: '2',
                 Icon: Microscope,
                 title: 'Get the Full Picture',
                 desc: 'See weight history, price history, shrinkflation percentage, and a forensic breakdown of real cost.',
               },
               {
-                step: '03',
+                step: '3',
                 Icon: BadgeDollarSign,
                 title: 'Buy Smarter',
                 desc: 'Compare prices across retailers instantly. Savira shows you exactly where to buy it cheaper â€” right now.',
@@ -5541,7 +5672,7 @@ export default function Home() {
                 <span style={{ color: '#FF6B87' }}>PRICE RISE.</span>
               </h2>
               <p style={{ color: '#555555', fontSize: '1.05rem', maxWidth: '540px', lineHeight: '1.7' }}>
-                Hover over a product to see how much it's shrunk â€” and what that actually cost you. This is what Savira does for every scan.
+                Hover over a product to see how much it's shrunk and what that actually cost you on average. This is what Savira does for every scan.
               </p>
             </div>
           </FadeSection>
@@ -5612,14 +5743,14 @@ export default function Home() {
                   ALWAYS FREE.
                 </h2>
                 <p style={{ color: '#A1A1A1', fontSize: '1.05rem', lineHeight: '1.7', maxWidth: '460px' }}>
-                  Savira is free during beta. After beta, there will be an extremely generous free tier â€” and no pressure to upgrade. We will never show you ads. Ever.
+                  Savira is fully free during beta. After beta, there will be an extremely generous free tier and no pressure to upgrade. We will never show you ads. Ever.
                 </p>
               </div>
               <div className="grid grid-cols-1 gap-4">
                 {[
                   { label: 'Ads', value: 'None. Not now, not ever.', color: '#FF6B87', icon: 'âœ•' },
                   { label: 'Premium paywalls', value: 'Everything is free during beta. Generous free tier always.', color: '#D97706', icon: 'âœ•' },
-                  { label: 'Selling your data', value: 'We don\'t track you. Period.', color: '#FF6B87', icon: 'âœ•' },
+                  { label: 'Selling your data', value: 'We don\'t share, rent, or sell your data. Period.', color: '#FF6B87', icon: 'âœ•' },
                 ].map((item, i) => (
                   <div
                     key={i}
@@ -5734,22 +5865,22 @@ function FadeSection({ children, delay = 0 }) {
 const principles = [
   {
     number: '01',
-    title: 'Radical Transparency',
-    body: 'Every data point we surface is sourced, dated, and verifiable. We don\'t estimate. We don\'t round. We don\'t spin. If a pack shrank by 11.3%, that\'s what we show you.',
+    title: 'AI Overviewed data',
+    body: 'Our AI specializes in finding price and size changes without sugar-coating it',
   },
   {
     number: '02',
     title: 'Zero Commercial Compromise',
-    body: 'We take no money from brands, retailers, or advertisers. Our only interest is yours. The moment that changes, Savira ceases to mean anything.',
+    body: 'We take no advertising money from brands, retailers, or advertisers. Our only interest is yours. The moment that changes, Savira ceases to mean anything.',
   },
   {
     number: '03',
     title: 'Privacy by Default',
-    body: 'We don\'t track your location, purchasing history, or identity. What you scan stays on your device. Full stop.',
+    body: 'We don\'t track your location, purchasing history, or identity. What you scan stays on your device. Period.',
   },
   {
     number: '04',
-    title: 'Free â€” Without Asterisks',
+    title: 'Free Without Asterisks',
     body: 'The data that exposes corporate price manipulation should not itself cost money. Savira is free during beta and will have an extremely generous free tier thereafter.',
   },
 ];
@@ -5779,9 +5910,9 @@ export default function Mission() {
               color: '#FFFFFF',
             }}
           >
-            THE SUPERMARKET
+            THE STORES
             <br />
-            <span style={{ color: '#FF6B87' }}>DOESN'T WANT</span>
+            <span style={{ color: '#FF6B87' }}>DON'T WANT</span>
             <br />
             YOU TO READ THIS.
           </h1>
@@ -5789,7 +5920,7 @@ export default function Mission() {
             className="max-w-2xl"
             style={{ color: '#A1A1A1', fontSize: '1.15rem', lineHeight: '1.75' }}
           >
-            Shrinkflation â€” the practice of quietly reducing a product's size while maintaining or increasing its price â€” is one of the most pervasive and least understood forms of consumer deception. Savira exists to end the information asymmetry.
+            Shrinkflation â€” the practice of quietly reducing a product's size while maintaining or increasing its price is one of the most pervasive and least understood forms of consumer deception. Savira exists to end the information asymmetry.
           </p>
         </div>
       </section>
@@ -5817,13 +5948,13 @@ export default function Mission() {
             </h2>
             <div style={{ color: '#555555', fontSize: '1.05rem', lineHeight: '1.8' }}>
               <p className="mb-5">
-                In the UK alone, over 2,500 products have been quietly shrunk since 2012. The crisp packet that once held 40g now holds 32g. The chocolate bar that once weighed 200g now weighs 170g. The washing-up liquid that once lasted six weeks now lasts five.
+                In the US alone, 1 in 3 common grocery products has quietly shrunk since the pandemic. The toilet paper roll that once had 429 sheets now has 320. The family cereal box that once held 24oz now holds 21.7oz. The paper towel roll that once gave you 165 sheets now gives you 135 â€” same price, less product.
               </p>
               <p className="mb-5">
                 The price, meanwhile, went up.
               </p>
               <p className="mb-5">
-                This isn't a coincidence. It's a strategy. The human brain is poor at detecting small size reductions â€” especially when the packaging looks the same. Companies exploit this. They know you won't notice a 15% reduction in the volume of a cereal box. They count on it.
+                This isn't a coincidence. It's a strategy. The our brains are poor at detecting small size reductions, especially when the packaging looks the same. Companies exploit this. They know you won't notice a 15% reduction in the volume of a cereal box. They count on it.
               </p>
               <p>
                 Savira doesn't let them count on it anymore.
@@ -5840,9 +5971,9 @@ export default function Mission() {
             </p>
             <div className="grid grid-cols-2 gap-6 mb-12">
               {[
-                { n: '206', label: 'Products the ONS found shrunk in a single year', color: '#FF6B87' },
-                { n: '47%', label: 'Average effective price rise when size + price changes are combined', color: '#D97706' },
-                { n: 'Â£630', label: 'The annual cost of shrinkflation to the average UK family', color: '#FF6B87' },
+                { n: '1 in 3', label: 'Common grocery products have shrunk since 2019', color: '#FF6B87' },
+                { n: '40%', label: 'Hidden per-unit price rise on downsized products', color: '#D97706' },
+                { n: '$1,680', label: 'Extra the average household spends on food per year vs. 2021', color: '#FF6B87' },
                 { n: '91%', label: 'Of consumers who say they were unaware of the specific products that shrank', color: '#D97706' },
               ].map((s, i) => (
                 <div
@@ -5977,7 +6108,7 @@ export default function Mission() {
             {' '}SIDE.
           </h2>
           <p className="mb-10 mx-auto" style={{ color: '#A1A1A1', fontSize: '1.05rem', maxWidth: '460px', lineHeight: '1.7' }}>
-            Download Savira for free. No account needed to start scanning.
+            Download Savira for free. Arm yourself with the information you deserve. Fight back against shrinkflation and price manipulation. Greedy corporations don't want you to read this, but they can't stop you.
           </p>
           <Link
             to={createPageUrl('Download')}
@@ -6125,10 +6256,10 @@ export default function Transparency() {
           >
             THE DATA.
             <br />
-            <span style={{ color: '#FF6B87' }}>ALL OF IT.</span>
+            <span style={{ color: '#FF6B87' }}>REAL EXAMPLES.</span>
           </h1>
           <p style={{ color: '#555555', fontSize: '1.1rem', lineHeight: '1.75', maxWidth: '600px' }}>
-            This is our open ledger of shrinkflation incidents, price changes, and product reformulations. Everything we've found, published publicly. No paywall.
+            These are real examples of shrinkflation and price manipulation, surfaced by Savira's AI. We track thousands of products every day. If you want to know if your favourite brand has shrunk their pack size or raised their price, this is where you'll find out.
           </p>
         </div>
       </section>
@@ -6346,5 +6477,11 @@ export default function Transparency() {
       </section>
     </div>
   );
+}
+
+=== D:\Savira-Web\src\utils.js ===
+export function createPageUrl(pageName) {
+  if (pageName === 'Home') return '/';
+  return '/' + pageName.toLowerCase();
 }
 
