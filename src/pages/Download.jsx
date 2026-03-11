@@ -101,7 +101,7 @@ export default function Download() {
             >
               GET SAVIRA.
               <br />
-              <span style={{ color: '#FF6B87' }}>IT'S FREE.</span>
+              <span style={{ color: '#FF6B87' }}>COMING SOON.</span>
             </h1>
             <p
               className="mb-10 max-w-xl"
